@@ -1,35 +1,43 @@
 #include <stdio.h>
 #include <string.h>
+#include <string>
 
 void mostraOpcoes();
-void mostraTitulo(char*);
+void mostraTitulo(const char*);
 void escolherOpcoes();
+void verificarDisponibilidade();
+void criarPassagem();
 
-struct 
+typedef struct 
 {
     int id;
     int janela;
     int andar;
-} cadastroAssento[50];
+} cadastroAssento;
 
-struct
+typedef struct
 {
     int quantidadeDeAssentos;
-} cadastroOnibus[2];
 
-struct
-{
-    char nome[40];
-} cadadastroCidade[5];
+    cadastroAssento assento;
+} cadastroOnibus;
 
-struct
+typedef struct
 {
+    std::string nome;
+
+    cadastroOnibus onibus;
+} cadadastroCidade;
+
+typedef struct
+{ 
     int preco;
 
-    struct cadadastroCidade cidade;
+    cadadastroCidade cidade;
 } cadastroPassagem;
 
 int main(){
+    criarPassagem();
     mostraTitulo("VENDA DE PASSAGENS DE ÔNIBUS");
     mostraOpcoes();
 }
@@ -43,7 +51,7 @@ void mostraOpcoes(){
     escolherOpcoes();
 }
 
-void mostraTitulo(char titulo[]){
+void mostraTitulo(const char titulo[]){
     int i;
     int tamanho_titulo = (strlen(titulo) + 4);
 
@@ -70,3 +78,15 @@ void escolherOpcoes(){
             printf("Opção inválida\n");
     }
 }
+
+void verificarDisponibilidade(){
+    
+}
+
+void criarPassagem(){
+    cadastroPassagem passagem;
+    passagem.preco = 30;
+    passagem.cidade.nome = "Ibirarema"; 
+    passagem.cidade.onibus.quantidadeDeAssentos = 50;
+}
+
