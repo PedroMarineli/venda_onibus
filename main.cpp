@@ -7,13 +7,14 @@ typedef struct
     int id;
     int janela;
     int andar;
+    int ativo;
 } cadastroAssento;
 
 typedef struct
 {
     int quantidadeDeAssentos;
 
-    cadastroAssento assento;
+    cadastroAssento assento[92];
 } cadastroOnibus;
 
 typedef struct
@@ -37,8 +38,8 @@ void verificarDisponibilidade();
 void criarPassagem(cadastroPassagem*);
 
 int main(){
-    cadastroPassagem passagem;
-    criarPassagem(&passagem);
+    cadastroPassagem passagem[5];
+    criarPassagem(passagem);
     mostraTitulo("VENDA DE PASSAGENS DE ÔNIBUS");
     mostraOpcoes();
 }
@@ -85,8 +86,33 @@ void verificarDisponibilidade(){
 }
 
 void criarPassagem(cadastroPassagem *passagem){
+    int i, x=3;
     passagem->preco = 30;
     passagem->cidade.nome = "Ibirarema"; 
-    passagem->cidade.onibus.quantidadeDeAssentos = 50;
+    passagem->cidade.onibus.quantidadeDeAssentos = 96;
+    if (passagem->cidade.onibus.quantidadeDeAssentos > 1) {
+        for (i=0; i<46; i++) {
+            passagem->cidade.onibus.assento[i].id = i+1;
+            passagem->cidade.onibus.assento[i].ativo = 1;
+        if (x == 2 || passagem->cidade.onibus.assento[i].id == 1) {
+            passagem->cidade.onibus.assento[i].janela = 1;
+            x=0;
+        }
+        x++;
+        }
+    } 
+    if (passagem->cidade.onibus.quantidadeDeAssentos > 46) {
+        x=2;
+        for (i=46; i<96; i++) {
+            passagem->cidade.onibus.assento[i].id = i+1;
+            passagem->cidade.onibus.assento[i].ativo = 1;
+            passagem->cidade.onibus.assento[i].andar = 1;
+        if (x == 2 || passagem->cidade.onibus.assento[i].id == 47) {
+            passagem->cidade.onibus.assento[i].janela = 1;
+            x=0;
+        }
+        x++;
+        }
+    }
 }
 
