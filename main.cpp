@@ -2,12 +2,6 @@
 #include <string.h>
 #include <string>
 
-void mostraOpcoes();
-void mostraTitulo(const char*);
-void escolherOpcoes();
-void verificarDisponibilidade();
-void criarPassagem();
-
 typedef struct 
 {
     int id;
@@ -36,8 +30,15 @@ typedef struct
     cadadastroCidade cidade;
 } cadastroPassagem;
 
+void mostraOpcoes();
+void mostraTitulo(const char*);
+void escolherOpcoes();
+void verificarDisponibilidade();
+void criarPassagem(cadastroPassagem*);
+
 int main(){
-    criarPassagem();
+    cadastroPassagem passagem;
+    criarPassagem(&passagem);
     mostraTitulo("VENDA DE PASSAGENS DE ÔNIBUS");
     mostraOpcoes();
 }
@@ -53,7 +54,7 @@ void mostraOpcoes(){
 
 void mostraTitulo(const char titulo[]){
     int i;
-    int tamanho_titulo = (strlen(titulo) + 4);
+    int tamanho_titulo = int((strlen(titulo) + 4));
 
     for (i=1; i < tamanho_titulo; i++) printf("─");
     printf("\n  %s\n", titulo);
@@ -83,10 +84,9 @@ void verificarDisponibilidade(){
     
 }
 
-void criarPassagem(){
-    cadastroPassagem passagem;
-    passagem.preco = 30;
-    passagem.cidade.nome = "Ibirarema"; 
-    passagem.cidade.onibus.quantidadeDeAssentos = 50;
+void criarPassagem(cadastroPassagem *passagem){
+    passagem->preco = 30;
+    passagem->cidade.nome = "Ibirarema"; 
+    passagem->cidade.onibus.quantidadeDeAssentos = 50;
 }
 
