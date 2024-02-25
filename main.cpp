@@ -5,8 +5,6 @@
 typedef struct 
 {
     int id;
-    int janela;
-    int andar;
     int ativo;
 } cadastroAssento;
 
@@ -34,8 +32,8 @@ typedef struct
 void mostraOpcoes();
 void mostraTitulo(const char*);
 void escolherOpcoes();
-void verificarDisponibilidade();
 void criarPassagem(cadastroPassagem*);
+void comprarPassagem();
 
 int main(){
     cadastroPassagem passagem[5];
@@ -81,46 +79,23 @@ void escolherOpcoes(){
     }
 }
 
-void verificarDisponibilidade(){
-    
-}
 
 void criarPassagem(cadastroPassagem *passagem){
-    int i, x=3;
+    int i;
     int numero;
     srand(unsigned(time(NULL))); 
     numero = rand() % 2; 
 
     passagem->preco = 30;
     passagem->cidade.nome = "Ibirarema";
-    if (numero == 0) {
-        passagem->cidade.onibus.quantidadeDeAssentos = 46;
-    } else {
-        passagem->cidade.onibus.quantidadeDeAssentos = 92;
+    passagem->cidade.onibus.quantidadeDeAssentos = 46;
+
+    for (i=0; i < 92; i++) {
+        passagem->cidade.onibus.assento[i].id = 0;
+        passagem->cidade.onibus.assento[i].ativo = 0;
     }
-    if (passagem->cidade.onibus.quantidadeDeAssentos > 1) {
-        for (i=0; i<46; i++) {
-            passagem->cidade.onibus.assento[i].id = i+1;
-            passagem->cidade.onibus.assento[i].ativo = 1;
-        if (x == 2 || passagem->cidade.onibus.assento[i].id == 1) {
-            passagem->cidade.onibus.assento[i].janela = 1;
-            x=0;
-        }
-        x++;
-        }
-    } 
-    if (passagem->cidade.onibus.quantidadeDeAssentos > 46) {
-        x=2;
-        for (i=46; i<96; i++) {
-            passagem->cidade.onibus.assento[i].id = i+1;
-            passagem->cidade.onibus.assento[i].ativo = 1;
-            passagem->cidade.onibus.assento[i].andar = 1;
-        if (x == 2 || passagem->cidade.onibus.assento[i].id == 47) {
-            passagem->cidade.onibus.assento[i].janela = 1;
-            x=0;
-        }
-        x++;
-        }
+    for (i=0; i < passagem->cidade.onibus.quantidadeDeAssentos; i++) {
+        passagem->cidade.onibus.assento[i].id = i+1;
+        passagem->cidade.onibus.assento[i].ativo = 1;
     }
 }
-
