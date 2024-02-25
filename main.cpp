@@ -77,7 +77,7 @@ void escolherOpcoes(){
         case 3:
             break;
         default:
-            printf("Opção inválida\n");
+            printf("\nOpção inválida\n");
     }
 }
 
@@ -87,9 +87,17 @@ void verificarDisponibilidade(){
 
 void criarPassagem(cadastroPassagem *passagem){
     int i, x=3;
+    int numero;
+    srand(unsigned(time(NULL))); 
+    numero = rand() % 2; 
+
     passagem->preco = 30;
-    passagem->cidade.nome = "Ibirarema"; 
-    passagem->cidade.onibus.quantidadeDeAssentos = 96;
+    passagem->cidade.nome = "Ibirarema";
+    if (numero == 0) {
+        passagem->cidade.onibus.quantidadeDeAssentos = 46;
+    } else {
+        passagem->cidade.onibus.quantidadeDeAssentos = 92;
+    }
     if (passagem->cidade.onibus.quantidadeDeAssentos > 1) {
         for (i=0; i<46; i++) {
             passagem->cidade.onibus.assento[i].id = i+1;
