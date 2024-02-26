@@ -93,7 +93,7 @@ void criarPassagem(cadastroPassagem *passagem){
 
     passagem->preco = 30;
     passagem->cidade.nome = "Ibirarema";
-    passagem->cidade.onibus.quantidadeDeAssentos = 46;
+    passagem->cidade.onibus.quantidadeDeAssentos = 48;
 
     for (i=0; i < 92; i++) {
         passagem->cidade.onibus.assento[i].id = 0;
@@ -129,14 +129,18 @@ void opcoesPassagem(){
     switch (opcao) {
         case 1:
             cidadeEscolhida = "Ibirarema";
+            break;
         case 2:
             cidadeEscolhida = "Salto Grande";
+            break;
         case 3:
             cidadeEscolhida = "Campinas";
         case 4:
             cidadeEscolhida = "Ourinhos";
+            break;
         case 5:
             cidadeEscolhida = "Assis";
+            break;
         case 6:
             main();
         default:
@@ -147,21 +151,23 @@ void opcoesPassagem(){
         mostrarAssentos("Ibirarema", &passagem[0]);
     }
     if (cidadeEscolhida == "Salto Grande") {
-        mostrarAssentos("Salto Grande");
+        mostrarAssentos("Salto grande", &passagem[1]);
     }
     if (cidadeEscolhida == "Campinas") {
-        mostrarAssentos("Campinas");
+        mostrarAssentos("Campinas", &passagem[2]);
     }
     if (cidadeEscolhida == "Ourinhos") {
-        mostrarAssentos("Ourinhos");
+        mostrarAssentos("Ourinhos", &passagem[3]);
     }
     if (cidadeEscolhida == "Assis") {
-        mostrarAssentos("Assis");
+        mostrarAssentos("Assis", &passagem[4]);
     }
 }
 
 void mostrarAssentos(const char assento[],cadastroPassagem *passagem){
-    for (i=0; condition; inc-expression) {
-    
+    int i;
+    for (i=0; i < passagem->cidade.onibus.quantidadeDeAssentos; i++) {
+        printf("Id: %02d | Id: %02d | Id: %02d |Id: %02d\n", passagem->cidade.onibus.assento[i].id, passagem->cidade.onibus.assento[i+1].id, passagem->cidade.onibus.assento[i+2].id, passagem->cidade.onibus.assento[i+3].id);
+        i = i+3;
     }
 }
