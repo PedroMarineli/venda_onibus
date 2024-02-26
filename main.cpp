@@ -34,9 +34,14 @@ void mostraTitulo(const char*);
 void escolherOpcoes();
 void criarPassagem(cadastroPassagem*);
 void comprarPassagem();
+void opcoesPassagem();
+void mostrarAssentos(const char*, cadastroPassagem*);
+
+cadastroPassagem passagem[5];
 
 int main(){
-    cadastroPassagem passagem[5];
+    system("clear");
+    
     criarPassagem(passagem);
     mostraTitulo("VENDA DE PASSAGENS DE ÔNIBUS");
     mostraOpcoes();
@@ -45,7 +50,7 @@ int main(){
 void mostraOpcoes(){
     printf("Escolha uma opção:\n\n");
     printf("1. Comprar passagens\n");
-    printf("2. Verificar disponibilidade de assentos\n");
+    printf("2. Verificar saldo\n");
     printf("3. Sair\n");
     
     escolherOpcoes();
@@ -69,7 +74,7 @@ void escolherOpcoes(){
 
     switch (opcao) {
         case 1:
-            break;
+            comprarPassagem();
         case 2:
             break;
         case 3:
@@ -97,5 +102,66 @@ void criarPassagem(cadastroPassagem *passagem){
     for (i=0; i < passagem->cidade.onibus.quantidadeDeAssentos; i++) {
         passagem->cidade.onibus.assento[i].id = i+1;
         passagem->cidade.onibus.assento[i].ativo = 1;
+    }
+}
+
+void comprarPassagem(){
+    system("clear");
+    mostraTitulo("COMPRAR PASSAGENS");
+    opcoesPassagem();
+}
+
+void opcoesPassagem(){
+    printf("Escolha uma cidade:\n\n");
+    printf("1. Ibirarema\n");
+    printf("2. Salto Grande\n");
+    printf("3. Campinas\n");
+    printf("4. Ourinhos\n");
+    printf("5. Assis\n");
+    printf("6. Sair\n");
+    
+    int opcao;
+    std::string cidadeEscolhida;
+
+    printf("\nOpção escolhida: ");
+    scanf("%d", &opcao);
+
+    switch (opcao) {
+        case 1:
+            cidadeEscolhida = "Ibirarema";
+        case 2:
+            cidadeEscolhida = "Salto Grande";
+        case 3:
+            cidadeEscolhida = "Campinas";
+        case 4:
+            cidadeEscolhida = "Ourinhos";
+        case 5:
+            cidadeEscolhida = "Assis";
+        case 6:
+            main();
+        default:
+            printf("\nOpção inválida\n");
+    }
+
+    if (cidadeEscolhida == "Ibirarema") {
+        mostrarAssentos("Ibirarema", &passagem[0]);
+    }
+    if (cidadeEscolhida == "Salto Grande") {
+        mostrarAssentos("Salto Grande");
+    }
+    if (cidadeEscolhida == "Campinas") {
+        mostrarAssentos("Campinas");
+    }
+    if (cidadeEscolhida == "Ourinhos") {
+        mostrarAssentos("Ourinhos");
+    }
+    if (cidadeEscolhida == "Assis") {
+        mostrarAssentos("Assis");
+    }
+}
+
+void mostrarAssentos(const char assento[],cadastroPassagem *passagem){
+    for (i=0; condition; inc-expression) {
+    
     }
 }
