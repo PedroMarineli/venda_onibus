@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <stdio.h>
 #include <string.h>
 #include <string>
@@ -36,6 +37,7 @@ void criarPassagem(cadastroPassagem*);
 void comprarPassagem();
 void opcoesPassagem();
 void mostrarAssentos(const char*, cadastroPassagem*);
+void escolherAssento(cadastroPassagem*);
 
 cadastroPassagem passagem[5];
 
@@ -159,15 +161,30 @@ void opcoesPassagem(){
     if (cidadeEscolhida == "Ourinhos") {
         mostrarAssentos("Ourinhos", &passagem[3]);
     }
-    if (cidadeEscolhida == "Assis") {
+    if (cidadeEscolhida == "Assis") {  
         mostrarAssentos("Assis", &passagem[4]);
     }
 }
 
 void mostrarAssentos(const char assento[],cadastroPassagem *passagem){
     int i;
+    system("clear");
+    mostraTitulo("ESCOLHA DE ASSENTOS");
+    printf("------------------------------------------------\n");
     for (i=0; i < passagem->cidade.onibus.quantidadeDeAssentos; i++) {
-        printf("Id: %02d | Id: %02d | Id: %02d |Id: %02d\n", passagem->cidade.onibus.assento[i].id, passagem->cidade.onibus.assento[i+1].id, passagem->cidade.onibus.assento[i+2].id, passagem->cidade.onibus.assento[i+3].id);
+        printf("[x]| Id: %02d | Id: %02d |////| Id: %02d | Id: %02d |[x]\n", passagem->cidade.onibus.assento[i].id, passagem->cidade.onibus.assento[i+1].id, passagem->cidade.onibus.assento[i+2].id, passagem->cidade.onibus.assento[i+3].id);
         i = i+3;
     }
+    printf("------------------------------------------------\n");
+    printf("\n[x] = Janela.  //// = Corredor.\nCaso o assento esteja com o ID diferente de '00' ele está disponível.\n");
+
+    escolherAssento(passagem);
+}
+
+void escolherAssento(cadastroPassagem *passagem){
+    int assento;
+    printf("\nEscolha seu assento: ");
+    scanf("%d", &assento);
+
+
 }
