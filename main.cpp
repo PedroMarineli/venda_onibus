@@ -2,11 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
+#include <thread>
 
 typedef struct 
 {
     int id;
     int ativo;
+    int possui;
 } cadastroAssento;
 
 typedef struct
@@ -38,8 +40,11 @@ void comprarPassagem();
 void opcoesPassagem();
 void mostrarAssentos(const char*, cadastroPassagem*);
 void escolherAssento(cadastroPassagem*);
+void verificarPassagens();
 
 cadastroPassagem passagem[5];
+float saldo = 100;
+int num_passagens = 0;
 
 int main(){
     system("clear");
@@ -52,7 +57,7 @@ int main(){
 void mostraOpcoes(){
     printf("Escolha uma opção:\n\n");
     printf("1. Comprar passagens\n");
-    printf("2. Verificar saldo\n");
+    printf("2. Verificar passagens\n");
     printf("3. Sair\n");
     
     escolherOpcoes();
@@ -78,7 +83,7 @@ void escolherOpcoes(){
         case 1:
             comprarPassagem();
         case 2:
-            break;
+            verificarPassagens();
         case 3:
             break;
         default:
@@ -146,7 +151,10 @@ void opcoesPassagem(){
         case 6:
             main();
         default:
-            printf("\nOpção inválida\n");
+            printf("\nOpção inválida\nRetornando ao menu...\n");
+            std::this_thread::sleep_for(std::chrono::seconds(2));
+            main();
+            break;
     }
 
     if (cidadeEscolhida == "Ibirarema") {
@@ -176,7 +184,7 @@ void mostrarAssentos(const char assento[],cadastroPassagem *passagem){
         i = i+3;
     }
     printf("------------------------------------------------\n");
-    printf("\n[x] = Janela.  //// = Corredor.\nCaso o assento esteja com o ID diferente de '00' ele está disponível.\n");
+    printf("\n[x] = Janela.  //// = Corredor.\n");
 
     escolherAssento(passagem);
 }
@@ -185,6 +193,35 @@ void escolherAssento(cadastroPassagem *passagem){
     int assento;
     printf("\nEscolha seu assento: ");
     scanf("%d", &assento);
+    assento--;
 
+    if (passagem->cidade.onibus.assento[assento].ativo == 0) {
+        printf("Este assento não está disponível.\n");
+    }else {
+        passagem->cidade.onibus.assento[assento].ativo = 0;
+        passagem->cidade.onibus.assento[assento].possui = 1;
+        saldo = saldo - passagem->preco;
+        num_passagens++;
+        printf("\nNovo saldo: %f\n", saldo);
+        printf("\nPassagem adquirida com sucesso!\nRetornando ao menu em 5 segundos...\n");
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        main();
+    }
+}
 
+void verificarPassagens(){
+    int i, x, wait;
+    mostraTitulo("MINHAS PASSAGENS");
+    for (i=0; i<5; i++) {
+        for (x=0; x<92; x++) {
+            if (passagem[i].cidade.onibus.assento[x].possui == 1) {
+                printf("---------------------\n");
+                printf("Cidade = %s \nId = %d\n", passagem[i].cidade.nome.c_str(), passagem[i].cidade.onibus.assento[x].id);
+                printf("---------------------\n\n");
+            }
+        }
+    }
+    printf("Pressione '1' para voltar ao menu...");
+    scanf("%d", &wait);
+    main();
 }
