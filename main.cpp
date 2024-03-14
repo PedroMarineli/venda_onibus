@@ -35,30 +35,43 @@ typedef struct
 void mostraOpcoes();
 void mostraTitulo(const char*);
 void escolherOpcoes();
-void criarPassagem(cadastroPassagem*);
+void criarPassagem(cadastroPassagem*, const char*);
 void comprarPassagem();
 void opcoesPassagem();
 void mostrarAssentos(const char*, cadastroPassagem*);
 void escolherAssento(cadastroPassagem*);
 void verificarPassagens();
+void adicionarSaldo();
+void consultarSaldo();
 
 cadastroPassagem passagem[5];
 float saldo = 100;
 int num_passagens = 0;
 
+
 int main(){
     system("clear");
-    
-    criarPassagem(passagem);
-    mostraTitulo("VENDA DE PASSAGENS DE ÔNIBUS");
-    mostraOpcoes();
+    if (passagem[0].cidade.nome == "ibirarema") {
+        mostraTitulo("VENDA DE PASSAGENS DE ÔNIBUS");
+        mostraOpcoes();
+    }else {
+        criarPassagem(&passagem[0], "ibirarema");
+        criarPassagem(&passagem[1], "Salto Grande");
+        criarPassagem(&passagem[2], "Campinas");
+        criarPassagem(&passagem[3], "Ourinhos");
+        criarPassagem(&passagem[4], "Assis");
+        mostraTitulo("VENDA DE PASSAGENS DE ÔNIBUS");
+        mostraOpcoes();
+    }
 }
 
 void mostraOpcoes(){
     printf("Escolha uma opção:\n\n");
     printf("1. Comprar passagens\n");
     printf("2. Verificar passagens\n");
-    printf("3. Sair\n");
+    printf("3. Adicionar saldo\n");
+    printf("4. Consultar saldo\n");
+    printf("5. Sair\n");
     
     escolherOpcoes();
 }
@@ -82,24 +95,28 @@ void escolherOpcoes(){
     switch (opcao) {
         case 1:
             comprarPassagem();
+            break;
         case 2:
             verificarPassagens();
+            break;
         case 3:
+            adicionarSaldo();
+            break;
+        case 4:
+            consultarSaldo();
             break;
         default:
             printf("\nOpção inválida\n");
+            break;
     }
 }
 
 
-void criarPassagem(cadastroPassagem *passagem){
+void criarPassagem(cadastroPassagem *passagem, const char nome[]){
     int i;
-    int numero;
-    srand(unsigned(time(NULL))); 
-    numero = rand() % 2; 
 
     passagem->preco = 30;
-    passagem->cidade.nome = "Ibirarema";
+    passagem->cidade.nome = nome;
     passagem->cidade.onibus.quantidadeDeAssentos = 48;
 
     for (i=0; i < 92; i++) {
@@ -142,6 +159,7 @@ void opcoesPassagem(){
             break;
         case 3:
             cidadeEscolhida = "Campinas";
+            break;
         case 4:
             cidadeEscolhida = "Ourinhos";
             break;
@@ -178,6 +196,7 @@ void mostrarAssentos(const char assento[],cadastroPassagem *passagem){
     int i;
     system("clear");
     mostraTitulo("ESCOLHA DE ASSENTOS");
+    printf("CIDADE: %s\n", assento);
     printf("------------------------------------------------\n");
     for (i=0; i < passagem->cidade.onibus.quantidadeDeAssentos; i++) {
         printf("[x]| Id: %02d | Id: %02d |////| Id: %02d | Id: %02d |[x]\n", passagem->cidade.onibus.assento[i].id, passagem->cidade.onibus.assento[i+1].id, passagem->cidade.onibus.assento[i+2].id, passagem->cidade.onibus.assento[i+3].id);
@@ -196,7 +215,13 @@ void escolherAssento(cadastroPassagem *passagem){
     assento--;
 
     if (passagem->cidade.onibus.assento[assento].ativo == 0) {
-        printf("Este assento não está disponível.\n");
+        printf("\nEste assento não está disponível!\nRetornando ao menu em 5 segundos...\n");
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        main();
+    }else if (saldo <= passagem->preco) {
+        printf("\nSaldo indisponível!\nRetornando ao menu em 5 segundos...\n");
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        main();
     }else {
         passagem->cidade.onibus.assento[assento].ativo = 0;
         passagem->cidade.onibus.assento[assento].possui = 1;
@@ -210,6 +235,7 @@ void escolherAssento(cadastroPassagem *passagem){
 }
 
 void verificarPassagens(){
+    system("clear");
     int i, x, wait;
     mostraTitulo("MINHAS PASSAGENS");
     for (i=0; i<5; i++) {
@@ -223,5 +249,30 @@ void verificarPassagens(){
     }
     printf("Pressione '1' para voltar ao menu...");
     scanf("%d", &wait);
+    main();
+}
+
+void adicionarSaldo(){
+    system("clear");
+    float valor;
+
+    mostraTitulo("ADICIONAR SALDO");
+
+    printf("Valor para adicionar: ");
+    scanf("%2f", &valor);
+
+    saldo = saldo + valor;
+
+    printf("\nValor adicionado com sucesso!\nRetornando ao menu em 5 segundos...\n");
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    main();
+}
+
+void consultarSaldo(){
+    system("clear");
+    mostraTitulo("CONSULTAR SALDO");
+
+    printf("\nSaldo atual: %2f\n\nRetornando ao menu em 5 segundos...\n", saldo);
+    std::this_thread::sleep_for(std::chrono::seconds(5));
     main();
 }
