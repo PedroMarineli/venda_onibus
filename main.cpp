@@ -105,6 +105,8 @@ void escolherOpcoes(){
         case 4:
             consultarSaldo();
             break;
+        case 5:
+            break;
         default:
             printf("\nOpção inválida\n");
             break;
@@ -259,7 +261,7 @@ void adicionarSaldo(){
     mostraTitulo("ADICIONAR SALDO");
 
     printf("Valor para adicionar: ");
-    scanf("%2f", &valor);
+    scanf("%f", &valor);
 
     saldo = saldo + valor;
 
@@ -272,7 +274,7 @@ void consultarSaldo(){
     system("clear");
     mostraTitulo("CONSULTAR SALDO");
 
-    printf("\nSaldo atual: %2f\n\nRetornando ao menu em 5 segundos...\n", saldo);
+    printf("\nSaldo atual: %.2f \n\nRetornando ao menu em 5 segundos...\n", saldo);
     std::this_thread::sleep_for(std::chrono::seconds(5));
     main();
 }
