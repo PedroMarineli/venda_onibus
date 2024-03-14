@@ -85,7 +85,7 @@ void mostraTitulo(const char titulo[]){
     for (i=1; i < tamanho_titulo; i++) printf("─");
     printf("\n");
 }
-
+ 
 void escolherOpcoes(){
     int opcao;
 
