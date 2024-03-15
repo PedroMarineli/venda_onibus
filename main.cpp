@@ -51,7 +51,7 @@ int num_passagens = 0;
 
 int main(){
     system("clear");
-    if (passagem[0].cidade.nome == "ibirarema") {
+    if (passagem[0].cidade.nome == "ibirarema" ) {
         mostraTitulo("VENDA DE PASSAGENS DE ÔNIBUS");
         mostraOpcoes();
     }else {
@@ -72,6 +72,7 @@ void mostraOpcoes(){
     printf("3. Adicionar saldo\n");
     printf("4. Consultar saldo\n");
     printf("5. Sair\n");
+    printf("\nColocar uma opção inválida encerrará o programa.\n");
     
     escolherOpcoes();
 }
@@ -108,7 +109,8 @@ void escolherOpcoes(){
         case 5:
             break;
         default:
-            printf("\nOpção inválida\n");
+            printf("\nOpção inválida\nEncerrando programa...\n");
+            std::this_thread::sleep_for(std::chrono::seconds(2));
             break;
     }
 }
@@ -205,7 +207,7 @@ void mostrarAssentos(const char assento[],cadastroPassagem *passagem){
         i = i+3;
     }
     printf("------------------------------------------------\n");
-    printf("\n[x] = Janela.  //// = Corredor.\n");
+    printf("\n[x] = Janela.  //// = Corredor.\nPressione '0' para retornar ao menu.\n");
 
     escolherAssento(passagem);
 }
@@ -215,8 +217,9 @@ void escolherAssento(cadastroPassagem *passagem){
     printf("\nEscolha seu assento: ");
     scanf("%d", &assento);
     assento--;
-
-    if (passagem->cidade.onibus.assento[assento].ativo == 0) {
+    if (assento == -1) {
+        main();
+    }else if (passagem->cidade.onibus.assento[assento].ativo == 0 || assento < 0 || assento > 48) {
         printf("\nEste assento não está disponível!\nRetornando ao menu em 5 segundos...\n");
         std::this_thread::sleep_for(std::chrono::seconds(5));
         main();
@@ -229,7 +232,7 @@ void escolherAssento(cadastroPassagem *passagem){
         passagem->cidade.onibus.assento[assento].possui = 1;
         saldo = saldo - passagem->preco;
         num_passagens++;
-        printf("\nNovo saldo: %f\n", saldo);
+        printf("\nNovo saldo: %.2f\n", saldo);
         printf("\nPassagem adquirida com sucesso!\nRetornando ao menu em 5 segundos...\n");
         std::this_thread::sleep_for(std::chrono::seconds(5));
         main();
@@ -262,12 +265,17 @@ void adicionarSaldo(){
 
     printf("Valor para adicionar: ");
     scanf("%f", &valor);
-
-    saldo = saldo + valor;
-
-    printf("\nValor adicionado com sucesso!\nRetornando ao menu em 5 segundos...\n");
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    main();
+    if (valor < 0) {
+        printf("\nNão é possivel adicionar valores negativos!\nRetornando ao menu em 5 segundos...\n");
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        main();
+    }else {
+        saldo = saldo + valor;
+        printf("\nValor adicionado com sucesso!\nRetornando ao menu em 5 segundos...\n");
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        main();
+    }
+    
 }
 
 void consultarSaldo(){
